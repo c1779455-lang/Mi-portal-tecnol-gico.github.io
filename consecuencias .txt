@@ -1,0 +1,570 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+<!-- ESTA ES LA ETIQUETA QUE ADAPTA LA ESCALA AL CELULAR O TABLET -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consecuencias del Uso No Regulado del Teléfono</title>
+  
+  <style>
+    /* --------------------------------------------------
+1. PANTALLA DE BIENVENIDA (LIMPIA)
+    -------------------------------------------------- */
+    #cerrar-bienvenida {
+      display: none;
+    }
+
+    #cerrar-bienvenida:checked + .pantalla-bienvenida {
+      display: none;
+    }
+
+    .pantalla-bienvenida {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-image: url('fondo_bienvenida-2 .jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 9999;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .pantalla-bienvenida h1 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      color: #38bdf8;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    .pantalla-bienvenida p {
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+      color: #ffffff;
+      max-width: 700px;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+    }
+
+    .btn-inicio {
+      background-color: #0284c7;
+      color: white;
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      display: inline-block;
+      transition: background-color 0.3s, transform 0.2s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn-inicio:hover {
+      background-color: #0369a1;
+      transform: scale(1.05);
+    }
+
+    .btn-regresar {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #0f172a;
+      color: #ffffff;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      border: 2px solid #ffffff;
+      z-index: 1000;
+    }
+
+    .btn-regresar:hover {
+      background-color: #0284c7;
+    }
+
+    /* --------------------------------------------------
+2. FONDO AZUL CIELO SÓLIDO Y FLORES POR TODA LA PÁGINA
+    -------------------------------------------------- */
+    body {
+  background: linear-gradient(to bottom, #ffffff, #a855f7); /* Blanco a Morado Medio */
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #0f172a; /* Texto azul marino oscuro */
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Contenedor fijo que cubre toda la pantalla para las flores */
+    #contenedor-flores {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .flor-rotando {
+      position: absolute;
+      user-select: none;
+      opacity: 0.55;
+      animation: girarFlor linear infinite;
+    }
+
+    @keyframes girarFlor {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    header, nav, main, footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      background-color: #0f172a;
+      color: #ffffff;
+      text-align: center;
+      padding: 30px 20px;
+      border-bottom: 4px solid #0284c7;
+    }
+
+    /* MENÚ DESPLEGABLE SUPERIOR */
+    .barra-navegacion {
+      background-color: #0f172a;
+      padding: 8px 20px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      border-bottom: 2px solid #38bdf8;
+      position: relative;
+      z-index: 500;
+    }
+
+    .menu-desplegable {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropbtn {
+      background-color: #1e293b;
+      color: #ffffff;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border: 2px solid #38bdf8;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    .dropbtn:hover {
+      background-color: #0284c7;
+    }
+
+    .contenido-dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #0f172a;
+      min-width: 230px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.5);
+      z-index: 9999;
+      border-radius: 6px;
+      border: 2px solid #38bdf8;
+      overflow: hidden;
+    }
+
+    .contenido-dropdown.mostrar {
+      display: block;
+    }
+
+    .contenido-dropdown a {
+      color: #ffffff;
+      padding: 14px 18px;
+      text-decoration: none;
+      display: block;
+      font-weight: bold;
+      border-bottom: 1px solid #334155;
+    }
+
+    .contenido-dropdown a:last-child {
+      border-bottom: none;
+    }
+
+    .contenido-dropdown a:hover {
+      background-color: #0284c7;
+      color: #ffffff;
+    }
+
+    /* Tarjetas translúcidas claras */
+    .tarjeta {
+      background-color: rgba(255, 255, 255, 0.70);
+      backdrop-filter: blur(4px);
+      border-left: 6px solid #0f172a;
+      padding: 20px;
+      margin: 20px; 
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      line-height: 1.6;
+      
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease-out;
+    }
+
+    .tarjeta.animada {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .titulo-destacado {
+      color: #0f172a;
+      margin-top: 0;
+      font-weight: bold;
+    }
+
+    a {
+      color: #0284c7;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    a:hover { 
+      color: #0f172a;
+      text-decoration: underline;
+    }
+
+    .contenedor-imagen {
+      margin: 15px 0;
+    }
+
+    .contenedor-imagen img {
+      max-width: 350px;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .tabla-estilos {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 15px;
+    }
+
+    .tabla-estilos th, 
+    .tabla-estilos td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid #94a3b8;
+    }
+
+    .tabla-estilos th {
+      background-color: #0f172a;
+      color: #ffffff;
+    }
+
+    .tabla-estilos tbody tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.45);
+    }
+
+    .reproductor-audio {
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+
+    footer {
+      background-color: #0f172a;
+      color: #e2e8f0;
+      text-align: center;
+      padding: 15px;
+      font-size: 13px;
+      border-top: 3px solid #38bdf8;
+    }
+
+    #titulo-animado::after {
+      content: '|';
+      animation: parpadeo 0.7s infinite;
+      color: #38bdf8;
+    }
+
+    @keyframes parpadeo {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+/* --------------------------------------------------
+       3. DISEÑO RESPONSIVO (ADAPTACIÓN A CELULARES Y TABLETS)
+    -------------------------------------------------- */
+    
+    /* Hacer que cualquier imagen se ajuste al ancho de la pantalla sin desbordarse */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Ajustes automáticos cuando la pantalla mide 768px o menos (Tablets y Celulares) */
+    @media screen and (max-width: 768px) {
+      /* Reducir tamaño de títulos en la pantalla de bienvenida */
+      .pantalla-bienvenida h1 {
+        font-size: 1.9rem;
+      }
+
+      .pantalla-bienvenida p {
+        font-size: 1rem;
+      }
+
+      .btn-inicio {
+        padding: 12px 25px;
+        font-size: 1rem;
+      }
+
+      /* Ajustar el título animado del encabezado principal */
+      header h1 {
+        font-size: 1.7rem;
+      }
+
+      /* Reducir márgenes de las tarjetas para aprovechar mejor el ancho del celular */
+      .tarjeta {
+        margin: 15px 10px;
+        padding: 15px;
+      }
+
+      /* Hacer que las tablas puedan deslizarse hacia los lados si son muy anchas */
+      .tabla-estilos {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+      /* Ajustar el botón flotante de volver a bienvenida para que no estorbe */
+      .btn-regresar {
+        bottom: 12px;
+        right: 12px;
+        padding: 8px 14px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CONTENEDOR DE FLORES ROTANDO POR TODA LA PÁGINA -->
+  <div id="contenedor-flores"></div>
+
+  <!-- PANTALLA DE BIENVENIDA -->
+  <input type="checkbox" id="cerrar-bienvenida">
+  
+  <div class="pantalla-bienvenida">
+    <h1>Consecuencias del Uso del Celular 📱</h1>
+    <p>Proyecto educativo sobre el impacto del uso no regulado del teléfono en adolescentes.</p>
+    <label for="cerrar-bienvenida" class="btn-inicio">Iniciar / Entrar al Sitio</label>
+  </div>
+
+  <!-- BOTÓN FLOTANTE PARA REGRESAR A LA BIENVENIDA -->
+  <label for="cerrar-bienvenida" class="btn-regresar">↺ Volver a Bienvenida</label>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <header>
+    <h1 id="titulo-animado"></h1>
+    <p>Proyecto Web de la Escuela Secundaria Técnica #12</p>
+  </header>
+
+  <!-- MENÚ DESPLEGABLE SUPERIOR OSCURO Y VISIBLE -->
+  <nav class="barra-navegacion">
+    <div class="menu-desplegable">
+      <button class="dropbtn">Menú ▾</button>
+      <div class="contenido-dropdown">
+        <a href="mi primera página web .html">Mi primera página web</a>
+        <a href="salud digital.html">Salud Digital</a>
+        <a href="impacto pscológico.html">Impacto Psicológico</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section id="sobre-tema" style="padding: 0 20px;">
+      <h2>El uso excesivo de pantallas en la juventud</h2>
+      <p><strong>El uso no regulado del teléfono en los adolescentes es un problema cada vez más común, ya que muchos jóvenes pasan demasiado tiempo utilizando redes sociales, videojuegos y aplicaciones.</strong></p>
+      
+      <div id="consecuencias-detalle" class="tarjeta" style="margin: 20px 0;">
+        <h3 class="titulo-destacado">Consecuencias sobre el uso no regulado del teléfono en adolescentes</h3>
+        <p>
+          Aunque el celular es una herramienta útil para estudiar, comunicarse o buscar información, su uso excesivo puede tener consecuencias negativas en la vida cotidiana. Una de las principales consecuencias es el <strong>bajo rendimiento escolar</strong> porque los estudiantes pueden distraerse durante las clases o al realizar sus tareas. También puede provocar la <strong>falta de sueño, cansancio, dolores de cabeza y molestias en la vista</strong>.
+        </p>
+        <p>
+          Además, pasar muchas horas frente a la pantalla puede disminuir la convivencia con la familia y los amigos, causar aislamiento social y generar ansiedad por estar revisando constantemente notificaciones o redes sociales.
+        </p>
+      </div>
+
+      <!-- PRIMERA IMAGEN REPRESENTATIVA -->
+      <h3>Trastornos del Sueño y Uso Nocturno:</h3>
+      <div class="contenedor-imagen">
+        <img src="watermarked_img_9504381348083960726.jpg" alt="Adolescente usando el celular en la noche">
+        <p style="font-size: 0.9rem; margin-top: 5px;"><strong>El uso del teléfono antes de dormir interrumpe el descanso y provoca fatiga al día siguiente.</strong></p>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: RIESGOS Y RECOMENDACIONES -->
+    <section id="riesgos" class="tarjeta">
+      <h3 class="titulo-destacado">Riesgos en Internet y Recomendaciones:</h3>
+      <p>
+        Otro problema es el acceso a contenidos inapropiados, el ciberacoso y los riesgos relacionados con compartir información personal en internet. Por esa razón, es importante que los adolescentes aprendamos a utilizar el teléfono celular de manera responsable:
+      </p>
+      <ul class="lista-temas">
+        <li>Establecer horarios de uso diario.</li>
+        <li>Evitar usar el teléfono antes de dormir.</li>
+        <li>Dedicar tiempo a realizar actividades físicas, estudiar y convivir con otras personas.</li>
+      </ul>
+
+      <!-- SEGUNDA IMAGEN REPRESENTATIVA -->
+      <h3>Impacto en la Convivencia Social:</h3>
+      <div class="contenedor-imagen">
+        <img src="watermarked_img_457411160973274277.jpg" alt="Adolescentes distraídos con el celular sin convivir">
+        <p style="font-size: 0.9rem; margin-top: 5px;">El aislamiento social ocurre cuando preferimos las pantallas sobre las pláticas en persona.</p>
+      </div>
+
+      <p>Para conocer más sobre los efectos del uso excesivo de dispositivos, puedes consultar la 
+        <a href="https://es.wikipedia.org/wiki/Adicci%C3%B3n_al_tel%C3%A9fono_m%C3%B3vil" target="_blank">Wikipedia en Español</a>.
+      </p>
+    </section>
+
+    <!-- SECCIÓN: TABLA DE RIESGOS -->
+    <section id="estadisticas" class="tarjeta">
+      <h3 class="titulo-destacado">Nivel de Riesgo según el Tiempo de Uso Diario:</h3>
+      <table class="tabla-estilos">
+        <thead>
+          <tr>
+            <th>Horas Diarias</th>
+            <th>Nivel de Riesgo</th>
+            <th>Principales Efectos Observados</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1 - 2 horas</td>
+            <td>Bajo / Balanceado</td>
+            <td>Uso responsable para tareas, entretenimiento breve y comunicación.</td>
+          </tr>
+          <tr>
+            <td>3 - 5 horas</td>
+            <td>Moderado</td>
+            <td>Fatiga visual leve, menor tiempo para actividades físicas o tareas.</td>
+          </tr>
+          <tr>
+            <td>Más de 5 horas</td>
+            <td>Alto / Crítico</td>
+            <td>Insomnio, bajón académico, ansiedad y dependencia del dispositivo.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SECCIÓN: MÚSICA / AUDIO -->
+    <section id="audio" class="tarjeta">
+      <h3 class="titulo-destacado">Música de Fondo / Pista Informativa:</h3>
+      <p>Escucha la pista del proyecto mientras navegas:</p>
+      
+      <audio controls class="reproductor-audio">
+        <source src="cancion-2.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+      </audio>
+    </section>
+  </main>
+
+  <footer>
+    <p>Elaborado por: <strong>Celia Merin Álvarez Ramírez y Santiago Atenco Paliciero</strong> | Escuela Secundaria Técnica #12</p>
+  </footer>
+
+  <!-- SCRIPT DE JAVASCRIPT -->
+  <script>
+    const contenedorFlores = document.getElementById("contenedor-flores");
+    const cantidadFlores = 25;
+    const tiposFlores = ["🌸", "🌼", "🌺", "💠"];
+
+    for (let i = 0; i < cantidadFlores; i++) {
+      const flor = document.createElement("div");
+      flor.classList.add("flor-rotando");
+      flor.innerText = tiposFlores[i % tiposFlores.length];
+      
+      flor.style.top = Math.random() * 100 + "vh";
+      flor.style.left = Math.random() * 100 + "vw";
+      
+      const tamano = Math.floor(Math.random() * 25) + 20;
+      flor.style.fontSize = tamano + "px";
+      
+      const duracion = Math.floor(Math.random() * 12) + 8;
+      flor.style.animationDuration = duracion + "s";
+
+      contenedorFlores.appendChild(flor);
+    }
+
+    const checkboxBienvenida = document.getElementById("cerrar-bienvenida");
+    const textoTitulo = "Consecuencias del Uso del Celular";
+    const elementoTitulo = document.getElementById("titulo-animado");
+    let animacionIniciada = false;
+
+    function iniciarAnimaciones() {
+      if (animacionIniciada) return;
+      animacionIniciada = true;
+
+      let indice = 0;
+      function escribirTitulo() {
+        if (indice < textoTitulo.length) {
+          elementoTitulo.innerHTML += textoTitulo.charAt(indice);
+          indice++;
+          setTimeout(escribirTitulo, 100);
+        }
+      }
+      escribirTitulo();
+
+      const tarjetas = document.querySelectorAll('.tarjeta');
+      tarjetas.forEach((tarjeta, index) => {
+        setTimeout(() => {
+          tarjeta.classList.add('animada');
+        }, 300 * (index + 1));
+      });
+    }
+
+    checkboxBienvenida.addEventListener("change", function() {
+      if (checkboxBienvenida.checked) {
+        iniciarAnimaciones();
+      }
+    });
+
+    // ABRIR Y CERRAR EL MENÚ DESPLEGABLE AL HACER CLIC
+    const botonMenu = document.querySelector(".dropbtn");
+    const listaMenu = document.querySelector(".contenido-dropdown");
+
+    botonMenu.addEventListener("click", function(evento) {
+      evento.stopPropagation();
+      listaMenu.classList.toggle("mostrar");
+    });
+
+    window.addEventListener("click", function() {
+      if (listaMenu.classList.contains("mostrar")) {
+        listaMenu.classList.remove("mostrar");
+      }
+    });
+  </script>
+
+</body>
+</html>

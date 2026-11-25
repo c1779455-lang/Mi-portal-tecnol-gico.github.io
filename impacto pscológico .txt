@@ -1,0 +1,540 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+<!-- ESTA ES LA ETIQUETA QUE ADAPTA LA ESCALA AL CELULAR O TABLET -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El impacto psicológico en adolescentes</title>
+  
+  <style>
+    /* --------------------------------------------------
+1. PANTALLA DE BIENVENIDA (LIMPIA)
+    -------------------------------------------------- */
+    #cerrar-bienvenida {
+      display: none;
+    }
+
+    #cerrar-bienvenida:checked + .pantalla-bienvenida {
+      display: none;
+    }
+
+    .pantalla-bienvenida {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-image: url('fondo_bienvenida-3.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 9999;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .pantalla-bienvenida h1 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      color: #38bdf8;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    .pantalla-bienvenida p {
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+      color: #ffffff;
+      max-width: 700px;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+    }
+
+    .btn-inicio {
+      background-color: #0284c7;
+      color: white;
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      display: inline-block;
+      transition: background-color 0.3s, transform 0.2s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn-inicio:hover {
+      background-color: #0369a1;
+      transform: scale(1.05);
+    }
+
+    .btn-regresar {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #0f172a;
+      color: #ffffff;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      border: 2px solid #ffffff;
+      z-index: 1000;
+    }
+
+    .btn-regresar:hover {
+      background-color: #0284c7;
+    }
+
+    /* --------------------------------------------------
+2. FONDO AZUL CIELO SÓLIDO Y FLORES POR TODA LA PÁGINA
+    -------------------------------------------------- */
+    body {
+ background: linear-gradient(to bottom, #ffffff, #a855f7); /* Blanco a Morado Medio */
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #0f172a;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    #contenedor-flores {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .flor-rotando {
+      position: absolute;
+      user-select: none;
+      opacity: 0.55;
+      animation: girarFlor linear infinite;
+    }
+
+    @keyframes girarFlor {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    header, nav, main, footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      background-color: #0f172a;
+      color: #ffffff;
+      text-align: center;
+      padding: 30px 20px;
+      border-bottom: 4px solid #0284c7;
+    }
+
+    .barra-navegacion {
+      background-color: #0f172a;
+      padding: 8px 20px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      border-bottom: 2px solid #38bdf8;
+      position: relative;
+      z-index: 500;
+    }
+
+    .menu-desplegable {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropbtn {
+      background-color: #1e293b;
+      color: #ffffff;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border: 2px solid #38bdf8;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    .dropbtn:hover {
+      background-color: #0284c7;
+    }
+
+    .contenido-dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #0f172a;
+      min-width: 230px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.5);
+      z-index: 9999;
+      border-radius: 6px;
+      border: 2px solid #38bdf8;
+      overflow: hidden;
+    }
+
+    .contenido-dropdown.mostrar {
+      display: block;
+    }
+
+    .contenido-dropdown a {
+      color: #ffffff;
+      padding: 14px 18px;
+      text-decoration: none;
+      display: block;
+      font-weight: bold;
+      border-bottom: 1px solid #334155;
+    }
+
+    .contenido-dropdown a:last-child {
+      border-bottom: none;
+    }
+
+    .contenido-dropdown a:hover {
+      background-color: #0284c7;
+      color: #ffffff;
+    }
+
+    .tarjeta {
+      background-color: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(4px);
+      border-left: 6px solid #0f172a;
+      padding: 20px;
+      margin: 20px; 
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease-out;
+    }
+
+    .tarjeta.animada {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .titulo-destacado {
+      color: #0f172a;
+      margin-top: 0;
+      font-weight: bold;
+    }
+
+    a {
+      color: #0284c7;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    a:hover { 
+      color: #0f172a;
+      text-decoration: underline;
+    }
+
+    .tabla-estilos {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 15px;
+    }
+
+    .tabla-estilos th, 
+    .tabla-estilos td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid #94a3b8;
+    }
+
+    .tabla-estilos th {
+      background-color: #0f172a;
+      color: #ffffff;
+    }
+
+    .tabla-estilos tbody tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.45);
+    }
+
+    .reproductor-audio {
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+
+    footer {
+      background-color: #0f172a;
+      color: #e2e8f0;
+      text-align: center;
+      padding: 15px;
+      font-size: 13px;
+      border-top: 3px solid #38bdf8;
+    }
+
+    #titulo-animado::after {
+      content: '|';
+      animation: parpadeo 0.7s infinite;
+      color: #38bdf8;
+    }
+
+    @keyframes parpadeo {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+/* --------------------------------------------------
+       3. DISEÑO RESPONSIVO (ADAPTACIÓN A CELULARES Y TABLETS)
+    -------------------------------------------------- */
+    
+    /* Hacer que cualquier imagen se ajuste al ancho de la pantalla sin desbordarse */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Ajustes automáticos cuando la pantalla mide 768px o menos (Tablets y Celulares) */
+    @media screen and (max-width: 768px) {
+      /* Reducir tamaño de títulos en la pantalla de bienvenida */
+      .pantalla-bienvenida h1 {
+        font-size: 1.9rem;
+      }
+
+      .pantalla-bienvenida p {
+        font-size: 1rem;
+      }
+
+      .btn-inicio {
+        padding: 12px 25px;
+        font-size: 1rem;
+      }
+
+      /* Ajustar el título animado del encabezado principal */
+      header h1 {
+        font-size: 1.7rem;
+      }
+
+      /* Reducir márgenes de las tarjetas para aprovechar mejor el ancho del celular */
+      .tarjeta {
+        margin: 15px 10px;
+        padding: 15px;
+      }
+
+      /* Hacer que las tablas puedan deslizarse hacia los lados si son muy anchas */
+      .tabla-estilos {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+      /* Ajustar el botón flotante de volver a bienvenida para que no estorbe */
+      .btn-regresar {
+        bottom: 12px;
+        right: 12px;
+        padding: 8px 14px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CONTENEDOR DE FLORES ROTANDO POR TODA LA PÁGINA -->
+  <div id="contenedor-flores"></div>
+
+  <!-- PANTALLA DE BIENVENIDA -->
+  <input type="checkbox" id="cerrar-bienvenida">
+  
+  <div class="pantalla-bienvenida">
+    <h1>Impacto Psicológico en Adolescentes 🧠</h1>
+    <p>Proyecto educativo enfocado en comprender las consecuencias emocionales y mentales del entorno digital.</p>
+    <label for="cerrar-bienvenida" class="btn-inicio">Entrar al Sitio Web</label>
+  </div>
+
+  <!-- BOTÓN FLOTANTE PARA REGRESAR A LA BIENVENIDA -->
+  <label for="cerrar-bienvenida" class="btn-regresar">↺ Volver a Bienvenida</label>
+
+  <!-- ENCABEZADO -->
+  <header>
+    <h1 id="titulo-animado"></h1>
+    <p>Proyecto de Concientización sobre Salud Mental y Tecnología</p>
+  </header>
+
+  <!-- MENÚ DESPLEGABLE SUPERIOR -->
+  <nav class="barra-navegacion">
+    <div class="menu-desplegable">
+      <button class="dropbtn">Menú ▾</button>
+      <div class="contenido-dropdown">
+        <a href="mi primera página web.html">Página Principal</a>
+        <a href="consecuencias.html">Consecuencias</a>
+        <a herf="salud digital.html">Salud digital</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- SECCIÓN: INTRODUCCIÓN PSICOLÓGICA -->
+    <section id="introduccion" class="tarjeta">
+      <h2 class="titulo-destacado">El impacto emocional de la hiperconectividad</h2>
+      <p>
+        Durante la adolescencia, el cerebro experimenta cambios profundos en las áreas encargadas de las emociones y la recompensa social. El uso desmedido de redes sociales y dispositivos digitales puede alterar este desarrollo natural, generando vulnerabilidad ante la presión de grupo virtual, la comparación constante con vidas idealizadas y la necesidad de validación externa a través de "likes".
+      </p>
+
+      <h3>Ilustración sobre la salud mental digital:</h3>
+      <img src="impacto_psicologico_adolescentes.jpg" alt="Joven reflexionando pensativo frente a la pantalla de su smartphone" width="100%" style="max-width: 450px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+      <p style="font-size: 0.85rem; color: #334155; margin-top: 5px;">La sobreexposición a contenidos digitales influye directamente en los estados de ánimo y la autoimagen.</p>
+    </section>
+
+    <!-- SUBSECCIÓN: EFECTOS EMOCIONALES CLAVE -->
+    <section id="efectos-emocionales" class="tarjeta">
+      <h3 class="titulo-destacado">Principales trastornos y riesgos psicológicos</h3>
+      <p>
+        Entre los fenómenos psicológicos más estudiados en jóvenes destacan el <strong>FOMO</strong> (Fear of Missing Out o miedo a perderse de algo), que provoca ansiedad constante por estar conectado; la <strong>baja autoestima</strong> derivada de los filtros estéticos y la perfección fingida en internet; y el aislamiento social debido a la sustitución de la convivencia cara a cara por interacciones virtuales.
+      </p>
+      <p>
+        Asimismo, el ciberacoso representa un factor crítico que daña severamente la estabilidad emocional, pudiendo desencadenar cuadros de depresión severa si no se detecta y atiende de manera oportuna con apoyo psicológico y familiar.
+      </p>
+    </section>
+
+    <!-- SEGUNDA IMAGEN REPRESENTATIVA -->
+    <section class="tarjeta">
+      <h3 class="titulo-destacado">La presión social y el aislamiento emocional:</h3>
+      <img src="ansiedad_social_pantallas.jpg" alt="Adolescente aislado con su teléfono en un entorno social" width="100%" style="max-width: 450px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+      <p style="font-size: 0.85rem; color: #334155; margin-top: 5px;">Estar físicamente acompañado pero mentalmente absorto en la pantalla debilita los vínculos afectivos reales.</p>
+
+      <p style="margin-top: 15px;">Puedes investigar más acerca de los efectos psicológicos y cognitivos en la <a href="https://es.wikipedia.org/wiki/Psicolog%C3%ADa_de_los_medios" target="_blank">Wikipedia en Español</a>.</p>
+    </section>
+
+    <!-- SECCIÓN: NUEVA TABLA INFORMATIVA (COMPLETAMENTE DIFERENTE) -->
+    <section id="tabla-psicologica" class="tarjeta">
+      <h3 class="titulo-destacado">Matriz de Síntomas Psicológicos y Estrategias de Regulación:</h3>
+      <table class="tabla-estilos">
+        <thead>
+          <tr>
+            <th>Efecto / Síntoma Psicológico</th>
+            <th>Causa Habitual en el Entorno Digital</th>
+            <th>Estrategia de Regulación y Apoyo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ansiedad por validación (FOMO)</td>
+            <td>Notificaciones constantes y necesidad de aprobación social inmediata.</td>
+            <td>Desactivar alertas no esenciales y establecer horarios libres de celular.</td>
+          </tr>
+          <tr>
+            <td>Distorsión de la autoimagen</td>
+            <td>Comparación con perfiles irreales, editados y idealizados.</td>
+            <td>Fomentar la autoestima basada en talentos reales y pensamiento crítico.</td>
+          </tr>
+          <tr>
+            <td>Agotamiento mental (Burnout digital)</td>
+            <td>Exceso de información y sobrecarga de tareas o interacciones online.</td>
+            <td>Pausas activas de desconexión digital y prácticas de relajación o mindfulness.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SECCIÓN: AUDIO -->
+    <section id="audio" class="tarjeta">
+      <h3 class="titulo-destacado">Escucha un fondo musical relajante:</h3>
+      <audio controls class="reproductor-audio">
+        <source src="cancion-2.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+      </audio>
+    </section>
+  </main>
+
+  <footer>
+    <p>Elaborado por: <strong>Celia Mayrin Álvarez Ramírez</strong> y <strong>Santiago Atenco Palillero</strong> en la <strong>Escuela Secundaria Técnica #12</strong></p>
+  </footer>
+
+  <!-- SCRIPT DE JAVASCRIPT -->
+  <script>
+    // Generación de flores giratorias de fondo
+    const contenedorFlores = document.getElementById("contenedor-flores");
+    const cantidadFlores = 25;
+    const tiposFlores = ["🌸", "🌼", "🌺"];
+
+    for (let i = 0; i < cantidadFlores; i++) {
+      const flor = document.createElement("div");
+      flor.classList.add("flor-rotando");
+      flor.innerText = tiposFlores[i % tiposFlores.length];
+      
+      flor.style.top = Math.random() * 100 + "vh";
+      flor.style.left = Math.random() * 100 + "vw";
+      
+      const tamano = Math.floor(Math.random() * 25) + 20;
+      flor.style.fontSize = tamano + "px";
+      
+      const duracion = Math.floor(Math.random() * 12) + 8;
+      flor.style.animationDuration = duracion + "s";
+
+      contenedorFlores.appendChild(flor);
+    }
+
+    // Animación de bienvenida y aparición de tarjetas
+    const checkboxBienvenida = document.getElementById("cerrar-bienvenida");
+    const textoTitulo = "Impacto Psicológico Digital";
+    const elementoTitulo = document.getElementById("titulo-animado");
+    let animacionIniciada = false;
+
+    function iniciarAnimaciones() {
+      if (animacionIniciada) return;
+      animacionIniciada = true;
+
+      let indice = 0;
+      function escribirTitulo() {
+        if (indice < textoTitulo.length) {
+          elementoTitulo.innerHTML += textoTitulo.charAt(indice);
+          indice++;
+          setTimeout(escribirTitulo, 100);
+        }
+      }
+      escribirTitulo();
+
+      const tarjetas = document.querySelectorAll('.tarjeta');
+      tarjetas.forEach((tarjeta, index) => {
+        setTimeout(() => {
+          tarjeta.classList.add('animada');
+        }, 300 * (index + 1));
+      });
+    }
+
+    checkboxBienvenida.addEventListener("change", function() {
+      if (checkboxBienvenida.checked) {
+        iniciarAnimaciones();
+      }
+    });
+
+    // Control del menú desplegable
+    const botonMenu = document.querySelector(".dropbtn");
+    const listaMenu = document.querySelector(".contenido-dropdown");
+
+    botonMenu.addEventListener("click", function(evento) {
+      evento.stopPropagation();
+      listaMenu.classList.toggle("mostrar");
+    });
+
+    window.addEventListener("click", function() {
+      if (listaMenu.classList.contains("mostrar")) {
+        listaMenu.classList.remove("mostrar");
+      }
+    });
+  </script>
+
+</body>
+</html>

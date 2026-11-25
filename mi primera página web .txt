@@ -1,0 +1,881 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Portal Tecnológico</title>
+
+  <style>
+    /* --------------------------------------------------
+1. PANTALLA DE BIENVENIDA
+    -------------------------------------------------- */
+    #cerrar-bienvenida {
+      display: none;
+    }
+
+    #cerrar-bienvenida:checked + .pantalla-bienvenida {
+      display: none;
+    }
+
+    .pantalla-bienvenida {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-image: url('fondo_bienvenida .jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 9999;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .pantalla-bienvenida h1 {
+      font-size: 2.8rem;
+      margin-bottom: 15px;
+      color: #38bdf8;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    .pantalla-bienvenida p {
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+      color: #ffffff;
+      max-width: 700px;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
+    }
+
+    .btn-inicio {
+      background-color: #0284c7;
+      color: #ffffff;
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      display: inline-block;
+      transition: background-color 0.3s, transform 0.2s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn-inicio:hover {
+      background-color: #0369a1;
+      transform: scale(1.05);
+    }
+
+    .btn-regresar {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #0f172a;
+      color: #ffffff;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      border: 2px solid #ffffff;
+      z-index: 1000;
+    }
+
+    .btn-regresar:hover {
+      background-color: #0284c7;
+    }
+
+    /* --------------------------------------------------
+2. FONDO AZUL CIELO SÓLIDO Y FLORES ROTANDO
+    -------------------------------------------------- */
+    body {
+      background-color: #38bdf8;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #0f172a;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    #contenedor-flores {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .flor-rotando {
+      position: absolute;
+      user-select: none;
+      opacity: 0.55;
+      animation: girarFlor linear infinite;
+    }
+
+    @keyframes girarFlor {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    header, nav, main, footer {
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      background-color: #0f172a;
+      color: #ffffff;
+      text-align: center;
+      padding: 30px 20px;
+      border-bottom: 4px solid #0284c7;
+    }
+
+    /* --------------------------------------------------
+3. MENÚ DESPLEGABLE SUPERIOR
+    -------------------------------------------------- */
+    .barra-navegacion {
+      background-color: #0f172a;
+      padding: 8px 20px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      border-bottom: 2px solid #38bdf8;
+      position: relative;
+      z-index: 500;
+    }
+
+    .menu-desplegable {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropbtn {
+      background-color: #1e293b;
+      color: #ffffff;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border: 2px solid #38bdf8;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+    }
+
+    .dropbtn:hover {
+      background-color: #0284c7;
+    }
+
+    .contenido-dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #0f172a;
+      min-width: 230px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      border-radius: 6px;
+      border: 2px solid #38bdf8;
+      overflow: hidden;
+    }
+
+    .contenido-dropdown.mostrar {
+      display: block;
+    }
+
+    .contenido-dropdown a {
+      color: #ffffff;
+      padding: 14px 18px;
+      text-decoration: none;
+      display: block;
+      font-weight: bold;
+      border-bottom: 1px solid #334155;
+    }
+
+    .contenido-dropdown a:last-child {
+      border-bottom: none;
+    }
+
+    .contenido-dropdown a:hover {
+      background-color: #0284c7;
+      color: #ffffff;
+    }
+
+    /* --------------------------------------------------
+4. TARJETAS, TABLAS Y MULTIMEDIA
+    -------------------------------------------------- */
+    .tarjeta {
+      background-color: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(4px);
+      border-left: 6px solid #0f172a;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease-out;
+    }
+
+    .tarjeta.animada {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .tarjeta-video-pequena {
+      max-width: 560px;
+      padding: 16px;
+    }
+
+    .titulo-destacado {
+      color: #0f172a;
+      margin-top: 0;
+      font-weight: bold;
+    }
+
+    a {
+      color: #0284c7;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #0f172a;
+      text-decoration: underline;
+    }
+
+    .tabla-estilos {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 15px;
+    }
+
+    .tabla-estilos th,
+    .tabla-estilos td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid #94a3b8;
+    }
+
+    .tabla-estilos th {
+      background-color: #0f172a;
+      color: #ffffff;
+    }
+
+    .tabla-estilos tbody tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.45);
+    }
+
+    /* Animación gratuita de pausa activa dentro de la tarjeta */
+    .escena-pausa {
+      background: linear-gradient(to bottom, #0284c7, #bae6fd);
+      border-radius: 8px;
+      padding: 18px;
+      text-align: center;
+      color: #0f172a;
+      margin-top: 10px;
+      box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.5);
+    }
+
+    .flor-pausa {
+      font-size: 38px;
+      display: inline-block;
+      animation: rotarPausa 8s linear infinite;
+    }
+
+    @keyframes rotarPausa {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .reproductor-video {
+      width: 100%;
+      max-height: 240px;
+      border-radius: 8px;
+      margin-top: 12px;
+      background-color: #0f172a;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-enlace-externo {
+      display: inline-block;
+      margin-top: 12px;
+      background-color: #0284c7;
+      color: #ffffff !important;
+      padding: 9px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      text-decoration: none !important;
+    }
+
+    .btn-enlace-externo:hover {
+      background-color: #0369a1;
+    }
+
+    /* --------------------------------------------------
+5. ENCUESTA DE SALUD DIGITAL Y MODAL DE RESULTADO
+    -------------------------------------------------- */
+    .pregunta-encuesta {
+      margin-bottom: 16px;
+      padding: 12px;
+      border-radius: 6px;
+      border-bottom: 1px solid #cbd5e1;
+      transition: background-color 0.3s, border 0.3s;
+    }
+
+    .pregunta-incompleta {
+      background-color: rgba(254, 226, 226, 0.85);
+      border: 2px solid #dc2626;
+    }
+
+    .pregunta-encuesta p {
+      font-weight: bold;
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .pregunta-encuesta label {
+      display: block;
+      margin: 6px 0;
+      cursor: pointer;
+    }
+
+    .btn-evaluar {
+      background-color: #0f172a;
+      color: #ffffff;
+      padding: 14px 28px;
+      font-size: 16px;
+      font-weight: bold;
+      border: 2px solid #38bdf8;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+    }
+
+    .btn-evaluar:hover {
+      background-color: #0284c7;
+    }
+
+    .modal-fondo {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(15, 23, 42, 0.85);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .modal-contenido {
+      background-color: #ffffff;
+      max-width: 520px;
+      width: 100%;
+      padding: 28px;
+      border-radius: 14px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      animation: aparecerModal 0.3s ease-out;
+    }
+
+    @keyframes aparecerModal {
+      from { transform: scale(0.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .caja-resultado-modal {
+      padding: 18px;
+      border-radius: 10px;
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      border-left: 6px solid;
+      text-align: left;
+    }
+
+    .nivel-bueno {
+      background-color: #dcfce7;
+      color: #166534;
+      border-color: #16a34a;
+    }
+
+    .nivel-medio {
+      background-color: #fef9c3;
+      color: #854d0e;
+      border-color: #eab308;
+    }
+
+    .nivel-malo {
+      background-color: #fee2e2;
+      color: #991b1b;
+      border-color: #dc2626;
+    }
+
+    .btn-cerrar-modal {
+      background-color: #0f172a;
+      color: #ffffff;
+      border: 2px solid #38bdf8;
+      padding: 10px 25px;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn-cerrar-modal:hover {
+      background-color: #0284c7;
+    }
+
+    .reproductor-audio {
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+
+    footer {
+      background-color: #0f172a;
+      color: #e2e8f0;
+      text-align: center;
+      padding: 15px;
+      font-size: 13px;
+      border-top: 3px solid #38bdf8;
+    }
+
+    #titulo-animado::after {
+      content: '|';
+      animation: parpadeo 0.7s infinite;
+      color: #38bdf8;
+    }
+
+    @keyframes parpadeo {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* --------------------------------------------------
+6. DISEÑO RESPONSIVO
+    -------------------------------------------------- */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    @media screen and (max-width: 768px) {
+      .pantalla-bienvenida h1 {
+        font-size: 1.9rem;
+      }
+
+      .pantalla-bienvenida p {
+        font-size: 1rem;
+      }
+
+      .btn-inicio {
+        padding: 12px 25px;
+        font-size: 1rem;
+      }
+
+      header h1 {
+        font-size: 1.7rem;
+      }
+
+      .tarjeta {
+        margin: 15px 10px;
+        padding: 15px;
+      }
+
+      .tarjeta-video-pequena {
+        max-width: none;
+      }
+
+      .tabla-estilos {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+      .btn-regresar {
+        bottom: 12px;
+        right: 12px;
+        padding: 8px 14px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FLORES ROTANDO POR TODA LA PÁGINA -->
+  <div id="contenedor-flores"></div>
+
+  <!-- PANTALLA DE BIENVENIDA -->
+  <input type="checkbox" id="cerrar-bienvenida" autocomplete="off">
+
+  <div class="pantalla-bienvenida">
+    <h1>¡Bienvenido a nuestro Portal Tecnológico! 🚀</h1>
+    <p>Proyecto web desarrollado para el laboratorio de informática de la Escuela Secundaria Técnica.</p>
+    <label for="cerrar-bienvenida" class="btn-inicio">Iniciar / Entrar al Sitio</label>
+  </div>
+
+  <!-- BOTÓN FLOTANTE PARA REGRESAR A LA BIENVENIDA -->
+  <label for="cerrar-bienvenida" class="btn-regresar">↺ Volver a Bienvenida</label>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <header id="inicio-pagina">
+    <h1 id="titulo-animado"></h1>
+    <p>Proyecto Web de la Secundaria Técnica</p>
+  </header>
+
+  <!-- MENÚ DESPLEGABLE SUPERIOR -->
+  <nav class="barra-navegacion">
+    <div class="menu-desplegable">
+      <button type="button" class="dropbtn">Menú ▾</button>
+      <div class="contenido-dropdown">
+        <a href="salud digital.html">Salud Digital</a>
+        <a href="consecuencias.html">Consecuencias</a>
+        <a href="impacto pscológico.html">Impacto Psicológico</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section id="sobre-taller" style="padding: 0 20px;">
+      <h2>Sobre el taller de informática</h2>
+      <p><strong>En este laboratorio aprendemos a utilizar herramientas digitales, hardware, algoritmos y el desarrollo web para solucionar problemas técnicos.</strong></p>
+
+      <div id="salud-digital" class="tarjeta" style="margin: 20px 0;">
+        <h3 class="titulo-destacado">Introducción a la Salud Digital</h3>
+        <p>
+          La <strong>Salud Digital</strong> consiste en el uso responsable de las tecnologías de la información y comunicación (TIC) para promover el bienestar físico, mental y social. Abarca desde la prevención de riesgos ergonómicos al usar computadoras, hasta la gestión adecuada del tiempo frente a pantallas y el uso ético de la información en línea.
+        </p>
+      </div>
+
+      <h3>Imagen Representativa:</h3>
+      <img src="hardware.png" alt="Componentes de hardware" width="400" style="border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">
+    </section>
+
+    <section id="temas" class="tarjeta">
+      <h3 class="titulo-destacado">Temas del Primer Trimestre:</h3>
+      <ul class="lista-temas">
+        <li>Introducción a la Web y HTML5</li>
+        <li>Diseño de Estilos con CSS3</li>
+        <li>Publicación de Proyectos Web</li>
+      </ul>
+
+      <p>Para conocer más sobre la evolución de la tecnología, puedes consultar la
+        <a href="https://es.wikipedia.org" target="_blank">Wikipedia en Español</a>.
+      </p>
+    </section>
+
+    <section id="horario" class="tarjeta">
+      <h3 class="titulo-destacado">Horario del Taller:</h3>
+      <table class="tabla-estilos">
+        <thead>
+          <tr>
+            <th>Día</th>
+            <th>Módulos</th>
+            <th>Horario</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Martes</td>
+            <td>Módulo 5, 6 y 7</td>
+            <td>11:20 a 13:40 pm</td>
+          </tr>
+          <tr>
+            <td>Miércoles</td>
+            <td>Módulo 5 y 6</td>
+            <td>11:20 a 13:00 pm</td>
+          </tr>
+          <tr>
+            <td>Jueves</td>
+            <td>Módulo 1, 2 y 3</td>
+            <td>7:30 a 10:00 am</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SECCIÓN DE PAUSA ACTIVA Y VIDEO -->
+    <section id="video" class="tarjeta tarjeta-video-pequena">
+      <h3 class="titulo-destacado">Pausa Activa y Video: Salud Digital</h3>
+
+      <div class="escena-pausa">
+        <div class="flor-pausa">🌸</div>
+        <p style="margin: 10px 0 6px; font-weight: bold;">¡Hora de tu pausa activa!</p>
+        <p style="margin: 0; font-size: 14px;">Estira la espalda, relaja los hombros y descansa la vista mirando hacia lo lejos bajo el cielo azul.</p>
+      </div>
+
+      <video controls class="reproductor-video">
+        <source src="Uso responsable de la tecnología.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de video.
+      </video>
+
+      <a href="https://youtu.be/Pu9V6WpO8-Q" target="_blank" class="btn-enlace-externo">
+        ▶ Ver video sobre Salud Digital en YouTube
+      </a>
+    </section>
+
+    <!-- ENCUESTA DE 10 PREGUNTAS OBLIGATORIAS -->
+    <section id="encuesta" class="tarjeta">
+      <h3 class="titulo-destacado">Test de Salud Digital (10 Preguntas Obligatorias)</h3>
+      <p>Responde todas las preguntas para evaluar tus hábitos tecnológicos y ver tu diagnóstico en pantalla:</p>
+
+      <form id="form-encuesta" autocomplete="off">
+        <div class="pregunta-encuesta" id="bloque-p1">
+          <p>1. ¿Cuántas horas al día pasas frente a pantallas fuera de tus clases o tareas?</p>
+          <label><input type="radio" name="p1" value="3"> Menos de 2 horas al día</label>
+          <label><input type="radio" name="p1" value="2"> Entre 2 y 4 horas al día</label>
+          <label><input type="radio" name="p1" value="1"> Más de 5 horas al día</label>
+        </div>
+
+        <div class="pregunta-encuesta" id="bloque-p2">
+          <p>2. ¿Usas el celular o computadora justo antes de dormir?</p>
+          <label><input type="radio" name="p2" value="3"> No, dejo las pantallas al menos 30 min antes de dormir</label>
+          <label><input type="radio" name="p2" value="2"> A veces, por unos minutos</label>
+          <label><input type="radio" name="p2" value="1"> Sí, me quedo viéndolo hasta que me da sueño</label>
+        </div>
+
+        <div class="pregunta-encuesta" id="bloque-p3">
+          <p>3. ¿Realizas pausas activas o descansas la vista cuando usas la computadora?</p>
+          <label><input type="radio" name="p3" value="3"> Sí, descanso la vista cada 20-30 minutos</label>
+          <label><input type="radio" name="p3" value="2"> Solo cuando siento los ojos cansados</label>
+          <label><input type="radio" name="p3" value="1"> Nunca, paso horas sin levantarme</label>
+        </div>
+
+        <div class="pregunta-encuesta" id="bloque-p4">
+          <p>4. ¿Cómo te sientes si olvidas tu teléfono o no tienes acceso a internet?</p>
+          <label><input type="radio" name="p4" value="3"> Tranquilo, aprovecho para hacer otras actividades</label>
+          <label><input type="radio" name="p4" value="2"> Un poco aburrido, pero lo manejo bien</label>
+          <label><input type="radio" name="p4" value="1"> Muy ansioso, estresado o irritado</label>
+        </div>
+
+        <div class="pregunta-encuesta" id="bloque-p5">
+          <p>5. ¿Revisas el celular mientras comes o platicas con tu familia y amigos?</p>
+          <label><input type="radio" name="p5" value="3"> Nunca, guardo el teléfono para convivir</label>
+          <label><input type="radio" name="p5" value="2"> Solo si recibo una llamada o mensaje urgente</label>
+          <label><input type="radio" name="p5" value="1"> Casi siempre estoy revisando redes sociales</label>
+        </div>
+
+        <div class="pregunta-encuesta" id="bloque-p6">
+          <p>6. ¿Cuidas tu postura física (espalda recta y cuello alineado) al usar el celular o la PC?</p>
+          <label><input type="radio" name="p6" value="3"> Sí, procuro mantener buena postura siempre</label>
+          <label><input type="radio" name="p6" value="2"> A veces lo olvido y me encorvo</label>
+          <label><input type="radio" name="p6" value="1"> No, suelo acostarme o encorvarme mucho</label>
+        </div>
+
+        <div class="pregunta-encuesta" id="bloque-p7">
+          <p>7. ¿Configuras el brillo de tu pantalla o usas filtro de luz azul por las noches?</p>
+          <label><input type="radio" name="p7" value="3"> Sí, activo el modo nocturno y brillo bajo</label>
+          <label><input type="radio" name="p7" value="2"> Solo bajo el brillo de vez en cuando</label>
+          <label><input type="radio" name="p7" value="1"> No, siempre tengo el brillo muy alto</label>
+        </div>
+
+        <div class="pregunta-encuesta" id="bloque-p8">
+          <p>8. ¿Qué tan seguido interrumpen las notificaciones tu concentración al estudiar?</p>
+          <label><input type="radio" name="p8" value="3"> Nunca, pongo el celular en silencio o "No molestar"</label>
+          <label><input type="radio" name="p8" value="2"> Algunas veces reviso mensajes mientras hago tarea</label>
+          <label><input type="radio" name="p8" value="1"> Constantemente, me distraigo cada pocos minutos</label>
+        </div>
+
+        <div class="pregunta-encuesta" id="bloque-p9">
+          <p>9. ¿Proteges tu privacidad y datos personales en redes sociales?</p>
+          <label><input type="radio" name="p9" value="3"> Sí, mis cuentas son privadas y uso contraseñas seguras</label>
+          <label><input type="radio" name="p9" value="2"> Tengo algunas cosas públicas, pero cuido lo que subo</label>
+          <label><input type="radio" name="p9" value="1"> No reviso la privacidad y acepto a cualquier persona</label>
+        </div>
+
+        <div class="pregunta-encuesta" id="bloque-p10">
+          <p>10. ¿Verificas si una noticia o información es verdadera antes de compartirla?</p>
+          <label><input type="radio" name="p10" value="3"> Sí, siempre compruebo en fuentes confiables</label>
+          <label><input type="radio" name="p10" value="2"> A veces la reviso si me parece muy exagerada</label>
+          <label><input type="radio" name="p10" value="1"> No, comparto lo que me llama la atención de inmediato</label>
+        </div>
+
+        <button type="button" class="btn-evaluar" onclick="evaluarEncuesta()">Ver mi resultado en pantalla</button>
+      </form>
+    </section>
+
+    <section id="audio" class="tarjeta">
+      <h3 class="titulo-destacado">Música de Fondo / Pista del Taller:</h3>
+      <p>Escucha la pista del proyecto mientras navegas:</p>
+
+      <audio controls class="reproductor-audio">
+        <source src="cancion.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+      </audio>
+    </section>
+  </main>
+
+  <!-- VENTANA EMERGENTE DE RESULTADO -->
+  <div id="modal-resultado" class="modal-fondo">
+    <div class="modal-contenido">
+      <h2 style="margin-top: 0; color: #0f172a;">📊 Resultado de tu Salud Digital</h2>
+      <div id="texto-resultado-modal" class="caja-resultado-modal"></div>
+      <button type="button" class="btn-cerrar-modal" onclick="cerrarModalResultado()">Aceptar y Cerrar</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>Elaborado por: <strong>Celia Mayrin Alvarez Ramírez y Santiago Atenco Palillero</strong> | Escuela Secundaria Técnica</p>
+  </footer>
+
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    function irAlInicio() {
+      window.scrollTo(0, 0);
+    }
+
+    function reiniciarCuestionario() {
+      const formulario = document.getElementById("form-encuesta");
+      if (formulario) {
+        formulario.reset();
+      }
+      document.querySelectorAll('.pregunta-encuesta').forEach(bloque => {
+        bloque.classList.remove('pregunta-incompleta');
+      });
+      cerrarModalResultado();
+    }
+
+    window.addEventListener("pageshow", function() {
+      irAlInicio();
+      reiniciarCuestionario();
+    });
+
+    window.addEventListener("load", irAlInicio);
+
+    // Flores rotando por todo el fondo
+    const contenedorFlores = document.getElementById("contenedor-flores");
+    const cantidadFlores = 25;
+    const tiposFlores = ["🌸", "🌼", "🌺", "💠"];
+
+    for (let i = 0; i < cantidadFlores; i++) {
+      const flor = document.createElement("div");
+      flor.classList.add("flor-rotando");
+      flor.innerText = tiposFlores[i % tiposFlores.length];
+      flor.style.top = Math.random() * 100 + "vh";
+      flor.style.left = Math.random() * 100 + "vw";
+      flor.style.fontSize = (Math.floor(Math.random() * 25) + 20) + "px";
+      flor.style.animationDuration = (Math.floor(Math.random() * 12) + 8) + "s";
+      contenedorFlores.appendChild(flor);
+    }
+
+    // Animación de escritura y tarjetas al entrar al sitio
+    const checkboxBienvenida = document.getElementById("cerrar-bienvenida");
+    const textoTitulo = "Mi Sitio de Informática";
+    const elementoTitulo = document.getElementById("titulo-animado");
+    let animacionIniciada = false;
+
+    function iniciarAnimaciones() {
+      irAlInicio();
+      if (animacionIniciada) return;
+      animacionIniciada = true;
+
+      let indice = 0;
+      function escribirTitulo() {
+        if (indice < textoTitulo.length) {
+          elementoTitulo.innerHTML += textoTitulo.charAt(indice);
+          indice++;
+          setTimeout(escribirTitulo, 100);
+        }
+      }
+      escribirTitulo();
+
+      const tarjetas = document.querySelectorAll('.tarjeta');
+      tarjetas.forEach((tarjeta, index) => {
+        setTimeout(() => {
+          tarjeta.classList.add('animada');
+        }, 250 * (index + 1));
+      });
+    }
+
+    checkboxBienvenida.addEventListener("change", function() {
+      if (checkboxBienvenida.checked) {
+        iniciarAnimaciones();
+      } else {
+        reiniciarCuestionario();
+      }
+    });
+
+    // Menú desplegable al hacer clic
+    const botonMenu = document.querySelector(".dropbtn");
+    const listaMenu = document.querySelector(".contenido-dropdown");
+
+    botonMenu.addEventListener("click", function(evento) {
+      evento.stopPropagation();
+      listaMenu.classList.toggle("mostrar");
+    });
+
+    window.addEventListener("click", function() {
+      if (listaMenu.classList.contains("mostrar")) {
+        listaMenu.classList.remove("mostrar");
+      }
+    });
+
+    // Evaluación de la encuesta
+    function evaluarEncuesta() {
+      const totalPreguntas = 10;
+      let puntajeTotal = 0;
+
+      for (let i = 1; i <= totalPreguntas; i++) {
+        document.getElementById(`bloque-p${i}`).classList.remove("pregunta-incompleta");
+      }
+
+      for (let i = 1; i <= totalPreguntas; i++) {
+        const respuesta = document.querySelector(`input[name="p${i}"]:checked`);
+        if (!respuesta) {
+          const bloqueFaltante = document.getElementById(`bloque-p${i}`);
+          bloqueFaltante.classList.add("pregunta-incompleta");
+          bloqueFaltante.scrollIntoView({ behavior: "smooth", block: "center" });
+          alert(`⚠️ ¡Atención! Es obligatorio contestar todas las preguntas.\n\nTe falta responder la pregunta #${i}.`);
+          return;
+        }
+        puntajeTotal += parseInt(respuesta.value, 10);
+      }
+
+      const modal = document.getElementById("modal-resultado");
+      const textoModal = document.getElementById("texto-resultado-modal");
+      textoModal.className = "caja-resultado-modal";
+
+      if (puntajeTotal >= 24) {
+        textoModal.classList.add("nivel-bueno");
+        textoModal.innerHTML = `<strong>🎉 ¡Excelente Salud Digital! (${puntajeTotal}/30 puntos)</strong><br><br>Mantienes un equilibrio muy sano entre el uso de la tecnología, tu descanso, tu postura y tu convivencia diaria. ¡Sigue así!`;
+      } else if (puntajeTotal >= 17) {
+        textoModal.classList.add("nivel-medio");
+        textoModal.innerHTML = `<strong>⚠️ Nivel Moderado (${puntajeTotal}/30 puntos)</strong><br><br>Vas por buen camino, pero algunos hábitos pueden mejorar. Procura hacer pausas visuales más seguidas, cuidar tu postura y desconectarte antes de dormir.`;
+      } else {
+        textoModal.classList.add("nivel-malo");
+        textoModal.innerHTML = `<strong>🚨 ¡Advertencia de Riesgo Digital! (${puntajeTotal}/30 puntos)</strong><br><br>El uso excesivo de pantallas está afectando tu descanso, concentración o postura. Te recomendamos establecer horarios sin teléfono y realizar actividades fuera de línea.`;
+      }
+
+      modal.style.display = "flex";
+    }
+
+    function cerrarModalResultado() {
+      document.getElementById("modal-resultado").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
